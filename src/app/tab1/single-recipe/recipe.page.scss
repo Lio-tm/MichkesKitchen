@@ -1,0 +1,27 @@
+.recipe-image {
+  position: relative;
+}
+
+.info {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+
+  ion-chip {
+    --background: #222;
+    --color: #fff;
+  }
+
+  ion-icon {
+    color: #fff;
+  }
+}
+
+ion-card-header.md {
+  display: flex;
+  flex-flow: column-reverse;
+}
+
+ion-item:last-child {
+  --border-width: 0 0 0 0 !important;
+}

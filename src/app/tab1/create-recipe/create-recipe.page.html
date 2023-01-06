@@ -1,0 +1,134 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title *ngIf="id; else new">Edit recipe</ion-title>
+    <ng-template #new>
+      <ion-title>New recipe</ion-title>
+    </ng-template>
+    <ion-buttons slot="end" *ngIf="id">
+      <ion-button (click)="presentDeleteAlert()">
+        <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+  <form [formGroup]="recipeForm" (ngSubmit)="submitRecipe()" novalidate>
+    <ion-card>
+      <ion-img *ngIf="fileUrl" [src]="fileUrl"></ion-img>
+      <ion-button (click)="uploadPicture()" expand="block" class="ion-margin">
+        <span *ngIf="hasPicture; else upload">Replace picture</span>
+        <ng-template #upload>Add a picture</ng-template>
+      </ion-button>
+      <div class="error ion-text-center ion-padding" *ngIf="isSubmitted && !hasPicture">
+        Please provide a picture
+      </div>
+      <ion-item lines="full">
+        <ion-label position="stacked">Recipe Name</ion-label>
+        <ion-input formControlName="name" type="text"></ion-input>
+        <ion-note slot="error" *ngIf="isSubmitted">Recipe name is required.
+        </ion-note>
+      </ion-item>
+      <ion-item lines="full" class="ion-margin-bottom">
+        <ion-label position="stacked">Recipe Description</ion-label>
+        <ion-textarea formControlName="description" type="text" autoGrow="true"></ion-textarea>
+        <ion-note slot="error" *ngIf="isSubmitted">Recipe description is required.
+        </ion-note>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+
+      <ion-item lines="full">
+        <ion-label position="fixed">Total Time</ion-label>
+        <ion-input formControlName="time" type="text"></ion-input>
+        <ion-note slot="error" *ngIf="isSubmitted">Total time is required.
+        </ion-note>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="fixed">Servings</ion-label>
+        <ion-input formControlName="servings" type="number" inputmode="numeric"></ion-input>
+        <ion-note slot="error" *ngIf="isSubmitted">Amount of servings is invalid
+        </ion-note>
+      </ion-item>
+      <ion-item lines="full">
+        <ion-label position="fixed">Tag</ion-label>
+        <ion-select formControlName="tag" required>
+          <ion-select-option *ngFor="let tag of tags" [value]="tag">
+            {{tag}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-item lines="full" class="ion-margin-bottom">
+        <ion-label position="fixed">Difficulty</ion-label>
+        <ion-select formControlName="difficulty" required>
+          <ion-select-option *ngFor="let difficulty of difficulties" [value]="difficulty">
+            {{difficulty}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-card>
+    <ion-card>
+      <ion-item lines="full">
+        <ion-label>
+          <h2>Ingredients</h2>
+        </ion-label>
+        <ion-button (click)="addIngredient()" color="success">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item *ngIf="ingredients?.errors?.required" class="error ion-text-center">
+        At least one ingredient is required
+      </ion-item>
+      <div formArrayName="ingredients">
+        <ion-item *ngFor="let ingredient of ingredients.controls; index as i">
+          <ion-input [formControlName]="i" type="text"></ion-input>
+          <button type="button" (click)="removeIngredient(i)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+          <ion-note slot="error" *ngIf="isSubmitted">Cannot be empty
+          </ion-note>
+        </ion-item>
+      </div>
+
+      <ion-item lines="full" class="ion-margin-top">
+        <ion-label>
+          <h2>Steps</h2>
+        </ion-label>
+        <ion-button (click)="addStep()" color="success">
+          <ion-icon name="add"></ion-icon>
+        </ion-button>
+      </ion-item>
+      <ion-item *ngIf="steps?.errors?.required" class="error ion-text-center">
+        At least one step is required
+      </ion-item>
+      <div formArrayName="steps">
+        <ion-item lines="inset" *ngFor="let step of steps.controls; index as i">
+          <ion-textarea [formControlName]="i" type="text" autoGrow="true"></ion-textarea>
+          <button type="button" (click)="removeStep(i)">
+            <ion-icon name="close"></ion-icon>
+          </button>
+          <ion-note slot="error" *ngIf="isSubmitted">Cannot be empty
+          </ion-note>
+        </ion-item>
+      </div>
+      <ion-row>
+        <ion-col>
+          <ion-button (click)="goBack()" color="danger" expand="block">
+            cancel
+          </ion-button>
+        </ion-col>
+        <ion-col>
+          <ion-button type="submit" color="success" expand="block"
+          >Submit
+          </ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-card>
+  </form>
+</ion-content>

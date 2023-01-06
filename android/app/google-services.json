@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "91116149367",
+    "project_id": "michkesapp",
+    "storage_bucket": "michkesapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:91116149367:android:7a93343e20bb70beb3c472",
+        "android_client_info": {
+          "package_name": "com.dillen.lio.michkeskitchen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "91116149367-19chpqminnbu21te2v2lvstobpau2gi7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dillen.lio.michkeskitchen",
+            "certificate_hash": "d1a1a49351d233048038ac52306bcd24679ad8f7"
+          }
+        },
+        {
+          "client_id": "91116149367-bvuo8utkut08jsuggmjse7mt45760p3d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDQVEwKFG_O0_xGDMFcekL40G3V5ftkKc8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "91116149367-bvuo8utkut08jsuggmjse7mt45760p3d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

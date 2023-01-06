@@ -1,0 +1,49 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Aanmelden met GSM</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()">Annuleren</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content *ngIf="!gettingDisplayName" [fullscreen]="true">
+
+  <ion-item class="ion-margin-top">
+    <ion-select slot="start" placeholder="Country" [(ngModel)]="code" interface="action-sheet">
+      <ion-select-option [value]="country.countryCode" *ngFor="let country of countryCodes">
+        {{country.flagEmoji}} {{country.country}} (+{{country.countryCode}})
+      </ion-select-option>
+    </ion-select>
+
+    <ion-input type="tel" [(ngModel)]="phone" placeholder="GSM Nummer" pattern="[0-9]*"></ion-input>
+  </ion-item>
+
+  <ion-note *ngIf="failed" color="danger">We hebben je niet kunnen verifiëren, probeer opnieuw.</ion-note>
+
+  <ion-item class="ion-margin-top" *ngIf="codeSent">
+    <ion-input type="text" [(ngModel)]="verificationCode" placeholder="Verificatiecode" minlength="6" maxlength="6"
+               pattern="[0-9]*"></ion-input>
+  </ion-item>
+
+  <ion-button [disabled]="phone === undefined" expand="block" color="light" class="ion-margin-top" (click)="sendCode()">
+    {{codeSent ? "Verificatiecode opnieuw verzenden" : "Verificatiecode verzenden"}}
+  </ion-button>
+
+  <ion-button *ngIf="codeSent" expand="block" color="light" class="ion-margin-top" (click)="validate()">
+    Inloggen
+  </ion-button>
+</ion-content>
+
+<ion-content *ngIf="gettingDisplayName" [fullscreen]="true">
+  <ion-item class="ion-margin-top">
+    <ion-input type="text" [(ngModel)]="displayName" placeholder="Gebruikersnaam"></ion-input>
+  </ion-item>
+
+  <ion-button [disabled]="displayName === undefined" expand="block" color="light" class="ion-margin-top"
+              (click)="setUserName()">
+    Gebruikersnaam instellen
+  </ion-button>
+</ion-content>
+
+

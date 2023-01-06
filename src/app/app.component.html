@@ -1,0 +1,32 @@
+<ion-app>
+  <ion-split-pane contentId="main">
+
+    <!--  the side menu  -->
+    <ion-menu contentId="main">
+      <ion-content *ngIf="(authService.currentUser | async); let user">
+        <ion-item>
+          <ion-avatar slot="start">
+            <img [src]="user?.photoURL" #avatar>
+          </ion-avatar>
+          <ion-label>
+            <ion-list-header>
+              {{user.displayName}}
+            </ion-list-header>
+            <ion-note class="ion-margin-start">
+              {{user.email || ''}}
+            </ion-note>
+          </ion-label>
+        </ion-item>
+
+        <ion-list lines="none">
+          <ion-item (click)="authService.signOut()">
+            Logout
+          </ion-item>
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+
+    <!-- the main content -->
+    <ion-router-outlet id="main"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

@@ -1,0 +1,95 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-uppercase" *ngIf="(recipe | async); let recipe">{{recipe.recipeName}}</ion-title>
+    <ion-buttons slot="end" *ngIf="(recipe | async); let recipe">
+      <ion-button (click)="changePreference(true)" *ngIf="userId">
+        <ion-icon *ngIf="isFavorite; else notFavorite" slot="icon-only" name="heart"></ion-icon>
+        <ng-template #notFavorite>
+          <ion-icon slot="icon-only" name="heart-outline"></ion-icon>
+        </ng-template>
+      </ion-button>
+      <ion-button [routerLink]="['..', 'create', recipe.id]">
+        <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark" fullscreen="true"
+             *ngIf="(recipe | async); let recipe">
+
+  <ion-card color="light">
+    <div class="recipe-image">
+      <ion-img [src]="recipe.fileUrl"></ion-img>
+      <div class="info">
+        <ion-chip>
+          <ion-icon name="time"></ion-icon>
+          <ion-label>{{recipe.time}}</ion-label>
+        </ion-chip>
+        <ion-chip>
+          <ion-icon name="speedometer"></ion-icon>
+          <ion-label>{{recipe.difficulty}}</ion-label>
+        </ion-chip>
+        <ion-chip>
+          <ion-icon name="people"></ion-icon>
+          <ion-label>{{recipe.servings}}</ion-label>
+        </ion-chip>
+      </div>
+    </div>
+    <ion-card-header>
+      <ion-card-title>{{recipe.recipeName}}</ion-card-title>
+      <ion-card-subtitle>{{recipe.tag}}</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <div>
+        <ion-text>{{recipe.description}}</ion-text>
+      </div>
+      <div class="ion-margin-vertical">
+        <ion-list lines="full">
+          <ion-list-header>
+            <ion-label class="ion-text-uppercase">
+              <strong>ingredients</strong>
+            </ion-label>
+            <ion-button (click)="changePreference(false)" *ngIf="userId" class="ion-float-right ion-margin-end"
+                        size="small" fill="outline">
+              <ion-icon *ngIf="isShopped; else notShopped" slot="icon-only" name="cart"></ion-icon>
+              <ng-template #notShopped>
+                <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+              </ng-template>
+            </ion-button>
+          </ion-list-header>
+          <ion-item *ngFor="let ingredient of recipe.ingredients">
+            {{ingredient}}
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <div class="ion-margin-vertical">
+        <ion-list lines="full">
+          <ion-list-header>
+            <ion-label class="ion-text-uppercase">
+              <strong>method</strong>
+            </ion-label>
+          </ion-list-header>
+          <ion-item *ngFor="let step of recipe.steps; index as i;" class="ion-padding-bottom">
+            <ion-text>
+              <div class="ion-margin-vertical">
+                STEP {{i + 1}}
+              </div>
+              {{step}}
+            </ion-text>
+          </ion-item>
+        </ion-list>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="share(recipe.recipeName, recipe.description)">
+      <ion-icon name="share-social"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

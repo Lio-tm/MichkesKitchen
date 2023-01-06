@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>
+      Home - find inspiration!
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" color="dark">
+  <ion-card *ngFor="let tag of tags" class="ion-margin-vertical">
+    <ion-card-header>
+      <ion-card-title class="ion-text-uppercase">
+        <strong>{{tag}}</strong>
+      </ion-card-title>
+    </ion-card-header>
+    <div class="ion-padding">
+      <swiper [slidesPerView]="2" [freeMode]="true" [loop]="true" [spaceBetween]="10"
+              *ngIf="(recipesByTag[tag] | async); let recipes;">
+        <ng-template swiperSlide *ngFor="let recipe of $any(recipes);">
+          <ion-router-link [routerLink]="['/tabs', 'tab1', 'recipe', recipe.id]"
+                           class="imgbox">
+            <ion-img
+              *ngIf="recipe.fileUrl; else placeholder"
+              src="{{ recipe.fileUrl}}"
+              alt="{{recipe.recipeName}}"
+            ></ion-img>
+            <ng-template #placeholder>
+              <ion-img src="./assets/img/bananatoast.jpg"
+                       alt="{{recipe.recipeName}}"></ion-img>
+            </ng-template>
+            <div class="title">
+              <h4>{{recipe.recipeName}}</h4>
+              <ion-text>
+                <ion-icon name="speedometer"></ion-icon>
+                {{recipe.difficulty}} -
+                <ion-icon name="time"></ion-icon>
+                {{recipe.time}}
+              </ion-text>
+            </div>
+          </ion-router-link>
+        </ng-template>
+      </swiper>
+    </div>
+  </ion-card>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button [routerLink]="['/tabs', 'tab1', 'recipe', 'create']">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>
